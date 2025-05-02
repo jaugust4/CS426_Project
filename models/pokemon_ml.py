@@ -124,12 +124,32 @@ class PokemonML:
             
         # Create a bar chart of the most important features
         fig = px.bar(
-            self.feature_importance.head(10),
+            self.feature_importance.head(25),
             x='importance',
             y='feature',
             orientation='h',
-            title='Top 10 Most Important Features for Legendary Status'
+            title='Top 25 Most Important Features for Legendary Status',
+            color='importance',
+            color_continuous_scale='Viridis',
+            height=800  # Increase height to accommodate more features
         )
+        
+        # Update layout for better readability
+        fig.update_layout(
+            xaxis_title='Feature Importance Score',
+            yaxis_title='Feature',
+            yaxis={'categoryorder': 'total ascending'},
+            margin=dict(l=150, r=50, t=50, b=50),  # Adjust margins for better fit
+            showlegend=False
+        )
+        
+        # Add value labels to bars
+        fig.update_traces(
+            texttemplate='%{x:.3f}',
+            textposition='outside',
+            textfont_size=10
+        )
+        
         return fig
     
     def get_confusion_matrix_plot(self, cm=None):
